@@ -1,5 +1,6 @@
 # Before start
 
+  - Check that you downloaded git projects mail-server and mail-web
   - Check that git vesrion is 2.+
   - Check that you run 'release' script is under sudo user
   - Check in 'release' script variables: NPM_USER, BRANCH, DIR_MAIL_SERVER, DIR_MAIL_WEB
