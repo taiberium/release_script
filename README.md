@@ -15,7 +15,7 @@
   
 | Variable | Description |
 | ------ | ------ |
-| NPM_USER | under what user will the npm assembly be rendered |
+| NPM_USER | under what user will be npm build |
 | BRANCH | from what branch will release be provided |
 | DIR_MAIL_SERVER | directory of mail-server project with source code and git file |
 | DIR_MAIL_WEB | directory of mail-web project with source code and git file |
