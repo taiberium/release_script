@@ -1,3 +1,11 @@
+# What does script do
+
+  - pull changes from remote
+  - make release builds from source code of java and js
+  - shut down old docker containers
+  - create new docker images
+  - start new docker containers
+
 # Before start
 
   - Check that you downloaded git projects mail-server and mail-web
