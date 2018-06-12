@@ -1,0 +1,30 @@
+version: '2'
+services:
+
+  mail-server:
+    build:
+      context: ./mail-server
+    image: mail-server
+    container_name: mail-server
+    mem_limit: 2G
+    ports:
+      -  "8090:8090"
+
+  mail-web:
+    build:
+      context: ./mail-web
+    image: mail-web
+    container_name: mail-web
+    mem_limit: 256m
+    ports:
+      -  "80:80"
+    depends_on:
+      -  mail-server
+
+
+volumes:
+  mongodb:
+networks:
+  default:
+    external:
+      name: harakasmtpserver_mail-network

@@ -1,0 +1,59 @@
+#!/bin/bash
+
+NPM_USER=rakhmetov
+BRANCH="develop"
+DIR_MAIL_SERVER="mail-server"
+DIR_MAIL_WEB="mail-web"
+
+#validate directory is exists
+
+if [ ! -d ${DIR_MAIL_SERVER} ]; then
+  echo "directory '$DIR_MAIL_SERVER' is not exists!!! Incorrect DIR_MAIL_SERVER path?";
+  echo "exits with ERROR!";
+  exit 1;
+fi
+
+if [ ! -d ${DIR_MAIL_WEB} ]; then
+  echo "directory '$DIR_MAIL_WEB' is not exists!!! Incorrect DIR_MAIL_WEB path?";
+  echo "exits with ERROR!";
+  exit 1;
+fi
+
+echo "";
+echo "-------------------------------";
+echo "START PROCESSING MAIL-SERVER";
+echo "-------------------------------";
+echo "";
+
+git -C $DIR_MAIL_SERVER fetch
+git -C $DIR_MAIL_SERVER checkout $BRANCH
+git -C $DIR_MAIL_SERVER pull origin $BRANCH
+./$DIR_MAIL_SERVER/gradlew -p $DIR_MAIL_SERVER clean build
+
+echo "";
+echo "-------------------------------";
+echo "START PROCESSING MAIL-WEB";
+echo "-------------------------------";
+echo "";
+
+git -C $DIR_MAIL_SERVER fetch
+git -C $DIR_MAIL_SERVER checkout $BRANCH
+git -C $DIR_MAIL_WEB pull origin $BRANCH
+sudo -u $NPM_USER rm -rf $DIR_MAIL_WEB/node_modules
+sudo -u $NPM_USER npm i --prefix $DIR_MAIL_WEB
+sudo -u $NPM_USER npm run build-prod --prefix $DIR_MAIL_WEB
+
+echo "";
+echo "-------------------------------";
+echo "START RELEASE WITH DOCKER-COMPOSE";
+echo "-------------------------------";
+echo "";
+
+docker-compose down
+docker-compose up --build -d
+
+echo "";
+echo "-------------------------------";
+echo "RELEASE FINISHED";
+echo "-------------------------------";
+echo "";
